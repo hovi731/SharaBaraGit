@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WNl-WR-lwU">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SharaBara" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="RwE-IU-Ge1">
+                        <barButtonItem key="leftBarButtonItem" title="Back" image="chevron.backward" catalog="system" id="a21-e7-qaz">
+                            <color key="tintColor" systemColor="tintColor"/>
+                            <connections>
+                                <action selector="BackButtonTapped:" destination="BYZ-38-t0r" id="1cz-KY-G5V"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="BackButton" destination="a21-e7-qaz" id="0pc-Vr-BZh"/>
+                        <segue destination="VWz-HJ-0a1" kind="show" identifier="ItemView" id="B1x-e6-9wT"/>
+                        <segue destination="1H7-yG-ziI" kind="show" identifier="UserView" id="wkM-gR-Zr8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="899" y="84"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="mdh-Ad-ev4">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="WNl-WR-lwU" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="die-6d-L7D">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="H1f-tJ-Lft"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ikQ-Jc-GRv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="18.840579710144929" y="83.705357142857139"/>
+        </scene>
+        <!--Item View Controller-->
+        <scene sceneID="JRw-nl-YCl">
+            <objects>
+                <viewController id="VWz-HJ-0a1" customClass="ItemViewController" customModule="SharaBara" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UFF-n2-alT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="T0v-3E-chN"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="59s-bK-pUt">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="7OZ-Zq-Shu">
+                            <connections>
+                                <action selector="BackButtonClicked:" destination="VWz-HJ-0a1" id="30D-1M-oZH"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="square.and.arrow.up" catalog="system" id="Oo0-2n-ftA">
+                            <connections>
+                                <action selector="shareButtonClicked:" destination="VWz-HJ-0a1" id="rNV-et-ctn"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="BackButton" destination="7OZ-Zq-Shu" id="BhD-66-AY1"/>
+                        <outlet property="ShareButton" destination="Oo0-2n-ftA" id="UID-Jh-rVG"/>
+                        <segue destination="8hL-iS-1Tj" kind="show" identifier="ItemView2" id="Zf5-WQ-clI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cKD-c2-9FE" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1594" y="84"/>
+        </scene>
+        <!--Item View Controller2-->
+        <scene sceneID="no6-pb-sYz">
+            <objects>
+                <viewController id="8hL-iS-1Tj" customClass="ItemViewController2" customModule="SharaBara" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HhR-dm-6cI">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="3ZE-1f-q4d"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="p6a-1Y-YMJ">
+                        <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="l6C-JO-fgZ">
+                            <connections>
+                                <action selector="BackButtonClicked:" destination="8hL-iS-1Tj" id="ADg-wE-G7g"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="square.and.arrow.up" catalog="system" id="Jav-yN-ih6">
+                            <connections>
+                                <action selector="shareButtonClicked:" destination="8hL-iS-1Tj" id="2e8-O5-W1V"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="BackButton" destination="l6C-JO-fgZ" id="23S-Yb-4fn"/>
+                        <outlet property="ShareButton" destination="Jav-yN-ih6" id="eU8-W0-vw1"/>
+                        <segue destination="VWz-HJ-0a1" kind="show" identifier="ItemView1" id="pKB-ne-1zD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WCC-44-W9E" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2280" y="84"/>
+        </scene>
+        <!--User View Controller-->
+        <scene sceneID="vWy-ie-tRM">
+            <objects>
+                <viewController id="1H7-yG-ziI" customClass="UserViewController" customModule="SharaBara" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EEc-Jd-Mye">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ePN-ni-eon"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="G2f-gs-4HH">
+                        <barButtonItem key="rightBarButtonItem" image="line.horizontal.3" catalog="system" id="a2N-gT-e02">
+                            <connections>
+                                <action selector="shareButtonClicked:" destination="1H7-yG-ziI" id="VJo-qO-vx6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wCQ-dT-paM" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="899" y="903"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="pKB-ne-1zD"/>
+    </inferredMetricsTieBreakers>
+    <resources>
+        <image name="chevron.backward" catalog="system" width="96" height="128"/>
+        <image name="line.horizontal.3" catalog="system" width="128" height="64"/>
+        <image name="square.and.arrow.up" catalog="system" width="115" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
