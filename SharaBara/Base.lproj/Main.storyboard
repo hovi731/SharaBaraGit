@@ -11,12 +11,28 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SharaBara" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="SharaBara" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ePm-QD-BZs">
+                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="4Os-70-JVs"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="4Os-70-JVs" firstAttribute="trailing" secondItem="ePm-QD-BZs" secondAttribute="trailing" id="MEp-zg-PGI"/>
+                            <constraint firstItem="4Os-70-JVs" firstAttribute="bottom" secondItem="ePm-QD-BZs" secondAttribute="bottom" id="hE3-eu-52b"/>
+                            <constraint firstItem="ePm-QD-BZs" firstAttribute="top" secondItem="4Os-70-JVs" secondAttribute="top" id="iNj-3B-jLA"/>
+                            <constraint firstItem="ePm-QD-BZs" firstAttribute="leading" secondItem="4Os-70-JVs" secondAttribute="leading" id="zhl-xA-iDh"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="RwE-IU-Ge1">
                         <barButtonItem key="leftBarButtonItem" title="Back" image="chevron.backward" catalog="system" id="a21-e7-qaz">
@@ -28,8 +44,10 @@
                     </navigationItem>
                     <connections>
                         <outlet property="BackButton" destination="a21-e7-qaz" id="0pc-Vr-BZh"/>
+                        <outlet property="webView" destination="ePm-QD-BZs" id="7VD-af-g8v"/>
                         <segue destination="VWz-HJ-0a1" kind="show" identifier="ItemView" id="B1x-e6-9wT"/>
                         <segue destination="1H7-yG-ziI" kind="show" identifier="UserView" id="wkM-gR-Zr8"/>
+                        <segue destination="uOt-Nq-c92" kind="presentation" identifier="ItemAdd" id="8U9-OK-MDQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -61,8 +79,24 @@
                     <view key="view" contentMode="scaleToFill" id="UFF-n2-alT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lAv-iz-ucC">
+                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="T0v-3E-chN"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="lAv-iz-ucC" firstAttribute="top" secondItem="T0v-3E-chN" secondAttribute="top" id="0q6-LE-Ek5"/>
+                            <constraint firstItem="T0v-3E-chN" firstAttribute="bottom" secondItem="lAv-iz-ucC" secondAttribute="bottom" id="4D8-3D-Mmu"/>
+                            <constraint firstItem="lAv-iz-ucC" firstAttribute="leading" secondItem="T0v-3E-chN" secondAttribute="leading" id="cW2-ST-uAS"/>
+                            <constraint firstItem="T0v-3E-chN" firstAttribute="trailing" secondItem="lAv-iz-ucC" secondAttribute="trailing" id="qWI-nl-wxq"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="59s-bK-pUt">
                         <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="7OZ-Zq-Shu">
@@ -79,6 +113,7 @@
                     <connections>
                         <outlet property="BackButton" destination="7OZ-Zq-Shu" id="BhD-66-AY1"/>
                         <outlet property="ShareButton" destination="Oo0-2n-ftA" id="UID-Jh-rVG"/>
+                        <outlet property="webView" destination="lAv-iz-ucC" id="0OU-Jp-7nZ"/>
                         <segue destination="8hL-iS-1Tj" kind="show" identifier="ItemView2" id="Zf5-WQ-clI"/>
                     </connections>
                 </viewController>
@@ -93,8 +128,24 @@
                     <view key="view" contentMode="scaleToFill" id="HhR-dm-6cI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUl-K7-sGV">
+                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="3ZE-1f-q4d"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="3ZE-1f-q4d" firstAttribute="bottom" secondItem="JUl-K7-sGV" secondAttribute="bottom" id="AFY-Li-Tj7"/>
+                            <constraint firstItem="3ZE-1f-q4d" firstAttribute="trailing" secondItem="JUl-K7-sGV" secondAttribute="trailing" id="ChW-Ri-iPg"/>
+                            <constraint firstItem="JUl-K7-sGV" firstAttribute="leading" secondItem="3ZE-1f-q4d" secondAttribute="leading" id="LNs-Fh-9qL"/>
+                            <constraint firstItem="JUl-K7-sGV" firstAttribute="top" secondItem="3ZE-1f-q4d" secondAttribute="top" id="PO5-ns-ZJr"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="p6a-1Y-YMJ">
                         <barButtonItem key="leftBarButtonItem" image="chevron.backward" catalog="system" id="l6C-JO-fgZ">
@@ -111,6 +162,7 @@
                     <connections>
                         <outlet property="BackButton" destination="l6C-JO-fgZ" id="23S-Yb-4fn"/>
                         <outlet property="ShareButton" destination="Jav-yN-ih6" id="eU8-W0-vw1"/>
+                        <outlet property="webView" destination="JUl-K7-sGV" id="Odn-GF-Br9"/>
                         <segue destination="VWz-HJ-0a1" kind="show" identifier="ItemView1" id="pKB-ne-1zD"/>
                     </connections>
                 </viewController>
@@ -123,10 +175,26 @@
             <objects>
                 <viewController id="1H7-yG-ziI" customClass="UserViewController" customModule="SharaBara" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EEc-Jd-Mye">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WHo-gH-RNj">
+                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="ePN-ni-eon"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="WHo-gH-RNj" firstAttribute="top" secondItem="ePN-ni-eon" secondAttribute="top" id="AEi-hK-1G7"/>
+                            <constraint firstItem="WHo-gH-RNj" firstAttribute="leading" secondItem="ePN-ni-eon" secondAttribute="leading" id="eBd-HZ-y2b"/>
+                            <constraint firstItem="ePN-ni-eon" firstAttribute="bottom" secondItem="WHo-gH-RNj" secondAttribute="bottom" id="iI2-zW-5rZ"/>
+                            <constraint firstItem="ePN-ni-eon" firstAttribute="trailing" secondItem="WHo-gH-RNj" secondAttribute="trailing" id="nmd-Y8-toy"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="G2f-gs-4HH">
                         <barButtonItem key="rightBarButtonItem" image="line.horizontal.3" catalog="system" id="a2N-gT-e02">
@@ -135,14 +203,65 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="ShareButton" destination="a2N-gT-e02" id="mpe-lj-hLn"/>
+                        <outlet property="webView" destination="WHo-gH-RNj" id="60f-wj-vhh"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="GeneralView" id="Knj-bk-4WM"/>
+                        <segue destination="VWz-HJ-0a1" kind="show" identifier="ItemView" id="zNH-cd-ivQ"/>
+                        <segue destination="uOt-Nq-c92" kind="presentation" identifier="ItemAdd" id="33Y-AR-Se5"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wCQ-dT-paM" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="899" y="903"/>
         </scene>
+        <!--Item Add View Controller-->
+        <scene sceneID="0fO-hi-RqM">
+            <objects>
+                <viewController id="uOt-Nq-c92" customClass="ItemAddViewController" customModule="SharaBara" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2Hi-hx-nPb">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="req-1j-MFv">
+                                <rect key="frame" x="0.0" y="44" width="414" height="798"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="IIU-tc-t3b"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="IIU-tc-t3b" firstAttribute="trailing" secondItem="req-1j-MFv" secondAttribute="trailing" id="TsH-Dv-LIy"/>
+                            <constraint firstItem="req-1j-MFv" firstAttribute="leading" secondItem="IIU-tc-t3b" secondAttribute="leading" id="c7S-e6-7fb"/>
+                            <constraint firstItem="IIU-tc-t3b" firstAttribute="bottom" secondItem="req-1j-MFv" secondAttribute="bottom" id="hIW-V0-pcc"/>
+                            <constraint firstItem="req-1j-MFv" firstAttribute="top" secondItem="IIU-tc-t3b" secondAttribute="top" id="ruc-xO-79r"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="OE4-sa-9fg">
+                        <barButtonItem key="rightBarButtonItem" image="line.horizontal.3" catalog="system" id="3fP-ji-Gsh">
+                            <connections>
+                                <action selector="shareButtonClicked:" destination="uOt-Nq-c92" id="x2U-Hk-WEF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="webView" destination="req-1j-MFv" id="398-eC-e2S"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="GeneralView" id="N9S-bh-lSt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DpY-Xh-1Ez" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1741" y="903"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pKB-ne-1zD"/>
+        <segue reference="33Y-AR-Se5"/>
+        <segue reference="zNH-cd-ivQ"/>
+        <segue reference="Knj-bk-4WM"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.backward" catalog="system" width="96" height="128"/>

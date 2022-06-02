@@ -18,23 +18,18 @@ import Foundation
 import UIKit
 import WebKit
 class UserViewController: UIViewController, WKNavigationDelegate {
-   // @IBOutlet weak var ShareButton: UIBarButtonItem!
+    @IBOutlet weak var ShareButton: UIBarButtonItem!
     
-    var webView: WKWebView!
+    @IBOutlet var webView: WKWebView!
+
+   // var webView: WKWebView!
     //@IBOutlet weak var BackButton: UIBarButtonItem!
     
     var pass: String?
     
-    override func loadView() {
-        webView = WKWebView()
-        webView.navigationDelegate = self
-        view = webView
-        title = "SharaBara"
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        
-    }
+    var check = false
+    
+
     
     
  
@@ -52,14 +47,15 @@ class UserViewController: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //view.addActivityIndicator()
+        webView.navigationDelegate = self
+        title = "SharaBara"
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         loadWebPage()
         
         //for Title
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
-        
-        //BackButton.isEnabled = false
-        //BackButton.tintColor = UIColor.clear
  
     }
     
@@ -74,8 +70,9 @@ class UserViewController: UIViewController, WKNavigationDelegate {
         }
     }
     
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) { // triggers when loading is complete
-        //backButton.isHidden = !webView.canGoBack
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        check = false
+        //ShareButton.tintColor = UIColor.systemBlue
         if(webView.canGoBack)
         {
             //BackButton.tintColor = UIColor.blue
@@ -85,23 +82,29 @@ class UserViewController: UIViewController, WKNavigationDelegate {
            // BackButton.tintColor = UIColor.clear
 
         }
+        let css = ".f-footer { display : none !important } .h-header{display : none !important}"
+               
+               let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
+               
+               webView.evaluateJavaScript(js, completionHandler: nil)
         
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
         
         
         
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        view.addActivityIndicator()
+        webView.addActivityIndicator()
+        
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
     }
     
     
@@ -116,34 +119,91 @@ class UserViewController: UIViewController, WKNavigationDelegate {
         
         
     }
+    
+    
+    
     @IBAction func shareButtonClicked(_ sender: UIBarButtonItem) {
-   
-          //Set the default sharing message.
-          //let message = "SharaBara.kz"
-          //Set the link to share.
-        if let link = NSURL(string: pass!)
-          {
-              let objectsToShare = [link] as [Any]
-              let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-              activityVC.excludedActivityTypes = [UIActivity.ActivityType.airDrop]
-              self.present(activityVC, animated: true, completion: nil)
-          }
+        
+        
+        check = !check
+
+                if check == true {
+
+                    ShareButton.tintColor = UIColor.gray
+
+                    webView.evaluateJavaScript("document.querySelector('.u-cabinet-aside.d-none.d-md-block').click();")
+                            let css = ".u-cabinet-aside.d-none.d-md-block {display: block !important;}"
+                            let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
+                    webView.evaluateJavaScript(js, completionHandler: nil)
+                    
+                    //ShareButton.setImage(UIImage(named: "red"), for: .normal)
+                } else {
+                    ShareButton.tintColor = UIColor.systemBlue
+                    webView.evaluateJavaScript("document.querySelector('.u-cabinet-aside.d-none.d-md-block').click();")
+                            let css = ".u-cabinet-aside.d-none.d-md-block {display: none !important;}"
+                            let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
+                    webView.evaluateJavaScript(js, completionHandler: nil)
+                    //ShareButton.setImage(UIImage(named: "blue"), for: .normal)
+                }
+
+
       }
     
   
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         let url = navigationAction.request.url
+        if url!.absoluteString == "https://sharabara.kz/" {
+                decisionHandler(.cancel)
+                print(url!)
+            print("redirect")
+                
+                //let sender: [String: Any?] = ["name": "My name", "id": 10]
+                performSegue(withIdentifier: "GeneralView", sender: url!.absoluteString)
+
+                return
+        }
+        if url!.absoluteString.range(of: "/user/") != nil{
+            //decisionHandler(.cancel)
+            ShareButton.isEnabled = false
+            ShareButton.tintColor = UIColor.clear
+            
+            //self.navigationItem.setRightBarButton(nil, animated: true)
+
+            //return
+        }
+        if url!.absoluteString.range(of: "/cabinet/") != nil{
+            //decisionHandler(.cancel)
+            ShareButton.isEnabled = true
+            ShareButton.tintColor = UIColor.systemBlue
+            
+            //self.navigationItem.setRightBarButton(nil, animated: true)
+
+            //return
+        }
         if navigationAction.navigationType == .linkActivated  {
-        if (url!.absoluteString.range(of: "/item/") != nil  && url!.absoluteString.range(of: "#") == nil){
+            if url!.absoluteString.range(of: "/item/edit") != nil || url!.absoluteString.range(of: "/item/add") != nil {
+                    decisionHandler(.cancel)
+                    print(url!)
+                    
+                    //let sender: [String: Any?] = ["name": "My name", "id": 10]
+                    performSegue(withIdentifier: "ItemAdd", sender: url!.absoluteString)
+
+                    return
+                }
+            
+            
+        if (url!.absoluteString.range(of: "/item/") != nil  && url!.absoluteString.range(of: "#") == nil && url!.absoluteString.range(of: "/item/edit") == nil && url!.absoluteString.range(of: "/item/add") == nil){
             decisionHandler(.cancel)
             print(url!)
             
             //let sender: [String: Any?] = ["name": "My name", "id": 10]
-            performSegue(withIdentifier: "ItemView2", sender: url!.absoluteString)
+            performSegue(withIdentifier: "ItemView", sender: url!.absoluteString)
 
             return
         }
+
+            
         }
         if navigationAction.request.url?.scheme == "tel" {
             UIApplication.shared.open(navigationAction.request.url!)
@@ -158,13 +218,32 @@ class UserViewController: UIViewController, WKNavigationDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ItemView2" {
-            if let destinationVC = segue.destination as? ItemViewController2 {
+        if segue.identifier == "ItemView" {
+            if let destinationVC = segue.destination as? ItemViewController {
+                let PassURL = sender as! String
+                destinationVC.pass = PassURL
+            }
+        }
+        if segue.identifier == "GeneralView" {
+            if let destinationVC = segue.destination as? ViewController {
+                let PassURL = sender as! String
+                destinationVC.pass = PassURL
+            }
+        }
+        if segue.identifier == "ItemAdd" {
+            if let destinationVC = segue.destination as? ItemAddViewController {
+                destinationVC.callBack = { (backlink: String) in
+                   // print("segue" ,backlink)
+                    let url = URL(string: backlink)!
+                    self.webView.load(URLRequest(url: url))
+                    //self.webView?.loadRequest(String?,backlink)
+                }
                 let PassURL = sender as! String
                 destinationVC.pass = PassURL
             }
         }
     }
+
 
 }
 

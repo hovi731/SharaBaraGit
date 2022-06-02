@@ -18,30 +18,22 @@ import Foundation
 import UIKit
 import WebKit
 class ItemViewController: UIViewController, WKNavigationDelegate {
+    @IBOutlet var webView: WKWebView!
     @IBOutlet weak var ShareButton: UIBarButtonItem!
     
     @IBOutlet weak var BackButton: UIBarButtonItem!
     
-    var webView: WKWebView!
+    //var webView: WKWebView!
     //@IBOutlet weak var BackButton: UIBarButtonItem!
     
     var pass: String?
     
-    override func loadView() {
-        webView = WKWebView()
-        webView.navigationDelegate = self
-        view = webView
-        title = "SharaBara"
-        let backButton = UIBarButtonItem()
-        backButton.title = ""
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        
-    }
+
     
     
  
     
-    internal func loadWebPage(fromCache isCacheLoad: Bool = false) {
+    internal func loadWebPage(fromCache isCacheLoad: Bool = true) {
         let url = URL(string: pass!)
         //print(url as Any)
         guard let url =  url else { return }
@@ -54,11 +46,19 @@ class ItemViewController: UIViewController, WKNavigationDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //webView = WKWebView()
+        webView.navigationDelegate = self
+        //view = webView
+        title = "SharaBara"
+        let backButton = UIBarButtonItem()
+        backButton.title = ""
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         //view.addActivityIndicator()
         loadWebPage()
         
         //for Title
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.title), options: .new, context: nil)
+        
         
         //BackButton.isEnabled = false
         //BackButton.tintColor = UIColor.clear
@@ -87,23 +87,30 @@ class ItemViewController: UIViewController, WKNavigationDelegate {
            // BackButton.tintColor = UIColor.clear
 
         }
+        let css = ".f-footer { display : none !important } .b-breadcrumbs{ display : none !important } .l-page-head{ display : none !important} .fl-search-container{display : none !important} .h-header{display : none !important}"
+               
+               let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
+               
+               webView.evaluateJavaScript(js, completionHandler: nil)
+
         
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
         
         
         
     }
     
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        view.addActivityIndicator()
+        
+        webView.addActivityIndicator()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
     }
     
     
@@ -165,7 +172,7 @@ class ItemViewController: UIViewController, WKNavigationDelegate {
         }
         if navigationAction.request.url?.scheme == "tel" {
             UIApplication.shared.open(navigationAction.request.url!)
-            decisionHandler(.cancel)
+            //decisionHandler(.cancel)
         }
         
         decisionHandler(.allow)

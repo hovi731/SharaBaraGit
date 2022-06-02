@@ -34,6 +34,8 @@ extension ViewController {
             ud.set(data, forKey: "cookie")
         }
     }
+    
+    
 
     func loadCookie() {
         let ud: UserDefaults = UserDefaults.standard
@@ -71,13 +73,14 @@ extension ItemViewController {
         }
     
 }
+
 extension UIView {
 
 func addActivityIndicator() {
     //    creating a view (let's call it "loading" view) which will be added on top of the view you want to have activity indicator on (parent view)
     let view = UIView()
     //    setting up a background for a view so it would make content under it look like not active
-    view.backgroundColor = UIColor.white.withAlphaComponent(0.7)
+    view.backgroundColor = UIColor.white.withAlphaComponent(1)
 
     //    adding "loading" view to a parent view
     //    setting up auto-layout anchors so it would cover whole parent view
@@ -121,4 +124,18 @@ func removeActivityIndicator() {
 
 
 
-
+extension UserDefaults {
+    
+    class func setURLToContinue(urlString: String){
+        UserDefaults.standard.set(urlString, forKey: "continueURL")
+    }
+    
+    class func getURLToContinue() -> String? {
+        return UserDefaults.standard.string(forKey: "continueURL")
+    }
+    
+    class func removeURLToContinue(){
+        UserDefaults.standard.removeObject(forKey: "continueURL")
+    }
+    
+}

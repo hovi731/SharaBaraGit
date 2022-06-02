@@ -9,33 +9,23 @@ import UIKit
 import WebKit
 class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     //ItemViewLink = "";
-
-    var webView: WKWebView!
+    var pass: String?
+    var backlink:  String?
+    var myVariable: String?
+    
+    
+    @IBOutlet var webView: WKWebView!
    
 
     @IBOutlet weak var BackButton: UIBarButtonItem!
     
-    override func loadView() {
-        //super.loadView()
-        let webConfiguration = WKWebViewConfiguration()
-        webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        webView.uiDelegate = self
-        //view = webView
-       // webView.navigationDelegate = self
-        //webView = WKWebView()
-        
-        webView.navigationDelegate = self
-        //self.webView.uiDelegate = self
-        view = webView
-        self.navigationItem.titleView = navTitleWithImageAndText(titleText: "ШараБара", imageName: "Fav")
 
-
+    
+    internal func loadWebPage(fromCache isCacheLoad: Bool = true) {
         
        
-    }
-    
-    internal func loadWebPage(fromCache isCacheLoad: Bool = false) {
         let url = URL(string: "https://sharabara.kz")
+        
         guard let url =  url else { return }
         let request = URLRequest(url: url, cachePolicy: (isCacheLoad ? .returnCacheDataElseLoad: .reloadRevalidatingCacheData), timeoutInterval: 50)
             //URLRequest(url: url)
@@ -44,14 +34,39 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         }
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        webView.navigationDelegate = self
+        
+        
+        let refreshControl = UIRefreshControl()
+            refreshControl.addTarget(self, action: #selector(reloadWebView(_:)), for: .valueChanged)
+            webView.scrollView.addSubview(refreshControl)
+        //self.webView.uiDelegate = self
+        //view = webView
+        self.navigationItem.titleView = navTitleWithImageAndText(titleText: "ШараБара", imageName: "Fav")
+        
         //view.addActivityIndicator()
         loadCookie()
         BackButton.isEnabled = false
         BackButton.tintColor = UIColor.clear
         loadWebPage()
+        //print(myVariable)
+        if let urlString = myVariable  {
+            let url = URL(string: urlString)!
+            self.webView.load(URLRequest(url: url))
+                    //UserDefaults.removeURLToContinue()
+        }
+        
+     
        
+    }
+    @objc func reloadWebView(_ sender: UIRefreshControl) {
+        webView.reload()
+        sender.endRefreshing()
     }
     
 
@@ -59,7 +74,8 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) { // triggers when loading is complete
         //backButton.isHidden = !webView.canGoBack
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
+        print("finish", backlink as Any)
         if(webView.canGoBack)
         {
             BackButton.tintColor = UIColor.blue
@@ -71,18 +87,23 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
         }
         
         saveCookie()
+        let css = ".f-footer { display : none !important } .in-promo-steps { display : none !important } .h-header{display : block !important}"
+               
+               let js = "var style = document.createElement('style'); style.innerHTML = '\(css)'; document.head.appendChild(style);"
+               
+               webView.evaluateJavaScript(js, completionHandler: nil)
   
     }
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        view.addActivityIndicator()
+        webView.addActivityIndicator()
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
     }
 
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        view.removeActivityIndicator()
+        webView.removeActivityIndicator()
     }
     
     
@@ -106,8 +127,22 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         //view.addActivityIndicator()
+
+
+        
+        
+        
         let url = navigationAction.request.url
-        if url!.absoluteString.range(of: "/item") != nil {
+        if url!.absoluteString.range(of: "step=activate") != nil || url!.absoluteString.range(of: "/item/activate?") != nil {
+            decisionHandler(.cancel)
+            print(url!)
+            
+            //let sender: [String: Any?] = ["name": "My name", "id": 10]
+            performSegue(withIdentifier: "UserView", sender: url!.absoluteString)
+
+            return
+        }
+        if url!.absoluteString.range(of: "/item") != nil && url!.absoluteString.range(of: "/item/add") == nil {
             decisionHandler(.cancel)
             print(url!)
             
@@ -116,7 +151,36 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
 
             return
         }
-        if url!.absoluteString.range(of: "/user") != nil {
+        if url!.absoluteString.range(of: "/item/add") != nil {
+                decisionHandler(.cancel)
+                print(url!)
+                
+                //let sender: [String: Any?] = ["name": "My name", "id": 10]
+                performSegue(withIdentifier: "ItemAdd", sender: url!.absoluteString)
+
+                return
+            }
+        if navigationAction.navigationType == .linkActivated  {
+        if url!.absoluteString.range(of: "/item/add") != nil {
+                decisionHandler(.cancel)
+                print(url!)
+                
+                //let sender: [String: Any?] = ["name": "My name", "id": 10]
+                performSegue(withIdentifier: "ItemAdd", sender: url!.absoluteString)
+
+                return
+            }
+
+        if url!.absoluteString.range(of: "/item") != nil && url!.absoluteString.range(of: "/item/add") == nil {
+            decisionHandler(.cancel)
+            print(url!)
+            
+            //let sender: [String: Any?] = ["name": "My name", "id": 10]
+            performSegue(withIdentifier: "ItemView", sender: url!.absoluteString)
+
+            return
+        }
+        if url!.absoluteString.range(of: "/cabinet") != nil || url!.absoluteString.range(of: "/user") != nil {
             decisionHandler(.cancel)
             print(url!)
             
@@ -124,6 +188,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
             performSegue(withIdentifier: "UserView", sender: url!.absoluteString)
 
             return
+        }
         }
         decisionHandler(.allow)
         //check if host which means website domain like apple.com
@@ -145,9 +210,33 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
                 destinationVC.pass = PassURL
             }
         }
+        
+        /*
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "ItemAdd")as? ItemAddViewController {
+                 vc.callBack = { (backlink: String) in
+                    print(backlink)
+                }
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        */
+        
+        
+        if segue.identifier == "ItemAdd" {
+            if let destinationVC = segue.destination as? ItemAddViewController {
+                destinationVC.callBack = { (backlink: String) in
+                   // print("segue" ,backlink)
+                    let url = URL(string: backlink)!
+                    self.webView.load(URLRequest(url: url))
+                    //self.webView?.loadRequest(String?,backlink)
+                }
+                let PassURL = sender as! String
+                destinationVC.pass = PassURL
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         //let loader =   self.loader()
        // DispatchQueue.main.asyncAfter(deadline: .now()) {
         //   self.stopLoader(loader: loader)
