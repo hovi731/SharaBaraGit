@@ -139,3 +139,13 @@ extension UserDefaults {
     }
     
 }
+
+extension UIApplication
+{
+    static func getKeyWindow() -> UIWindow? {
+        return shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+    }
+}
