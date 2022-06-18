@@ -24,7 +24,7 @@ class ViewController: UIViewController, WKNavigationDelegate, WKUIDelegate {
     internal func loadWebPage(fromCache isCacheLoad: Bool = true) {
         
        
-        let url = URL(string: "https://sharabara.kz")
+        let url = URL(string: "https://ivi.kz")
         
         guard let url =  url else { return }
         let request = URLRequest(url: url, cachePolicy: (isCacheLoad ? .returnCacheDataElseLoad: .reloadRevalidatingCacheData), timeoutInterval: 50)
